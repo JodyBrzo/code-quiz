@@ -145,7 +145,7 @@ function setUserScore() {
     localStorage.setItem("highScores", JSON.stringify(highScores));
 
     playerInitials.val("");
-    showHighScores();
+        showHighScores();
   }
   else {
     alert("You must enter your initials to record a score.");
@@ -206,7 +206,8 @@ function showQuestion() {
     var buttons = $("#quiz-list button"); //array of buttons from the ul
 
     for (var i = 0; i < choices.length; i++) {
-      $(buttons[i]).html(choices[i]);  //set the text of the button to the corrosponding choice
+      var counter = i + 1;
+      $(buttons[i]).html(counter + ". " + choices[i]);  //set the text of the button to the corrosponding choice
     }
     buttons.prop('disabled', false);
   }
@@ -215,6 +216,7 @@ function showQuestion() {
     $("#quizQuestions").addClass("d-none"); //hide the quesions
     $("#quizFinish").removeClass("d-none"); //show the All Done page
     $("#answer").removeClass("d-none");     //show the last answer 
+    $("#score").html(secondsLeft);
     questionNumber = 0;
     stopTimer();  
   }

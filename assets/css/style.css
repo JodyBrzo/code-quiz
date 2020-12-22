@@ -13,7 +13,6 @@ input {
   height: 50px;
   width: 100%;
   padding: 6px;
-  margin-top: 10px;
   font-size: 2.4em;
   border: none;
 }
@@ -67,4 +66,10 @@ li button:hover {
 
 .actionButton:hover {
   background-color: #00c3ff;
+}
+
+#quizFinish {
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 30%;
 }

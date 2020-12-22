@@ -43,22 +43,20 @@
             <li><button data-index="3"></button></li>
           </ul>
         </div>
-        <div class="d-none" id="quizFinish">
+        <div class="d-none text-left" id="quizFinish">
           <h1>All Done!</h1>
           <p>Your final score is <span id="score"></span></p>
-          <div class="input-group justify-content-center">
-            <div class="flex-row w-50 justify-content-center">
-              <label for="playerInitials">Enter Initials:</label>
-              <input type="text" class="form-control" id="playerInitials" aria-describedby="playerInitialsButton" aria-label="Player Intials">
-              <button class="btn btn-outline-secondary actionButton" type="button" id="playerInitialsButton">Submit</button>
-            </div>
+          <div class="input-group">
+            <label class="input-group-text" for="playerInitials">Enter Initials:</label>
+            <input type="text" class="form-control" id="playerInitials" aria-describedby="playerInitialsButton" aria-label="Player Intials">
+            <button class="btn btn-outline-secondary actionButton" type="button" id="playerInitialsButton">Submit</button>
           </div>          
         </div>
         <div class="d-none" id="answer">
           <hr>
           <p id="answerStatus"></p>
         </div>
-        <div class="d-none" id="highScores">
+        <div class="d-none mt-5" id="highScores">
           <h1>Highscores</h1>
           <ul id="highScoresList"></ul>
           <button class="actionButton" id="goBack">Go Back</button>
