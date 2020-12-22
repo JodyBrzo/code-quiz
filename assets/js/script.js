@@ -6,6 +6,8 @@ let questionNumber = 0;
 let secondsLeft = 0;
 //id of timer object
 let timerInterval;
+//array to retrieve scores from local storage
+let highScores=[];
 
 //object containg all of our quesitons, possible choices and correct answer
 let masterQuiz =
@@ -71,9 +73,11 @@ let masterQuiz =
     });
 
     $("#playerInitialsButton").on("click", function(){ 
+      setUserScore();
       showHighScores();
     });
-    
+
+    loadHighScores();
     setTimer();
   });
 
@@ -83,6 +87,19 @@ let masterQuiz =
     $("#quizQuestions").removeClass("d-none"); //show
     startTimer();
     showQuestions();  //go to show questions function
+  }
+
+  function loadHighScores()
+  {
+    var highScoresArray = localStorage.getItem("highScores");
+    if (highScoresArray) //if not undefined
+    {
+      highScores = JSON.parse(highScoresArray);
+    }
+    else
+    {
+      localStorage.setItem("highScores",JSON.stringify(highScores));
+    }
   }
 
   function quizListButton(event)
@@ -107,6 +124,18 @@ let masterQuiz =
     $("#highScores").removeClass("d-none");
   }
 
+  function setUserScore()
+  {
+    var score = 
+    {
+      initials: $("#playerInitials").val(),
+      score: secondsLeft
+    }
+
+    highScores.push(score);
+    localStorage.setItem("highScores",JSON.stringify(highScores));
+
+  }
   function startOver()
   {
     $("#header").removeClass("d-none");
