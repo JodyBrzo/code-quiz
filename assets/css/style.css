@@ -20,19 +20,12 @@ input {
 
 ul {
   list-style-type: none;
-  padding: 0;
-  background-color: white;
+  padding: 1px;
 }
 
 li {
-  /* height: 50px;
-  margin-top: 5px;*/
   margin-left: 20px; 
   padding: 5px;
-  /* background-color: #ff5d88; */
-  /* color: white; */
-  /* font-size: 1.5em; */
-  /* line-height: 1.5; */
 }
 
 li:before {
@@ -47,7 +40,6 @@ li::after {
 }
 
 li button {
-  /* float: right; */
   border: none;
   height: 40px;
   cursor: pointer;

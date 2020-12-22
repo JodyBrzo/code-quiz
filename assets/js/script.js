@@ -13,33 +13,33 @@ let highScores = [];
 let masterQuiz =
   [
     {
-      question: "question 1",
-      choice: ["choice A", "choice B", "choice C", "choice D"],
-      answer: 1
+      question: "Commonly used data types DO NOT include:",
+      choice: ["strings", "booleans", "alerts", "number"],
+      answer: 2 //alerts
     },
 
     {
-      question: "question 2",
-      choice: ["choice A", "choice B", "choice C", "choice D"],
-      answer: 0
+      question: "The condition in an if / else statement is enclosed within _________.",
+      choice: ["quotes", "curly brackets", "parentheses", "square brackets"],
+      answer: 2 //parentheses
     },
 
     {
-      question: "question 3",
-      choice: ["choice A", "choice B", "choice C", "choice D"],
-      answer: 2
+      question: "Arrays in JavaScript can be used to store ________.",
+      choice: ["numbers and strings", "other arrays", "booleans", "all of the above"],
+      answer: 3 //all of the above
     },
 
     {
-      question: "question 4",
-      choice: ["choice A", "choice B", "choice C", "choice D"],
-      answer: 1
+      question: "A very useful tool used during developement and debugging for printing content to the debugger is:",
+      choice: ["JavaScript", "terminal / bash", "for loops", "console.log"],
+      answer: 3 //console.log
     },
 
     {
-      question: "question 5",
-      choice: ["choice A", "choice B", "choice C", "choice D"],
-      answer: 3
+      question: "String values must be enclosed within ______ when being assigned to variables.",
+      choice: ["commas", "curly brackets", "quotes", "parentheses"],
+      answer: 2 //quotes
     }
   ];
 
@@ -80,7 +80,7 @@ function startQuiz() {
   startTimer();
   // bindQuestionButtons();
   questionNumber = 0;
-  showQuestions();  //go to show questions function
+  showQuestion();  //go to show questions function
 }
 
 function loadHighScores() {
@@ -129,6 +129,7 @@ function showHighScores() {
     var counter = i + 1;
     $("#highScoresList").append("<li>" + counter + ". " + highScores[i].initials + "- " + highScores[i].score + "</li>");
   }
+  setTimer();
 }
 
 function setUserScore() {
@@ -190,32 +191,43 @@ function stopTimer() {
 }
 
 //function to render the questions on the screen
-function showQuestions() {
-  //get the question from the object masterQuiz based on the variable questionNumber to tell what question we are on  
-  var question = masterQuiz[questionNumber].question;
-  //set the h1 element questionContent to the question
-  $("#questionContent").html(question);
-  $("#answer").addClass("d-none");
+function showQuestion() {
+  
+  if (questionNumber !== masterQuiz.length)
+  {
+    //get the question from the object masterQuiz based on the variable questionNumber to tell what question we are on  
+    var question = masterQuiz[questionNumber].question;
+    //set the h1 element questionContent to the question
+    $("#questionContent").html(question);
+    $("#answer").addClass("d-none");  //hiding
 
-  //array of choices
-  var choices = masterQuiz[questionNumber].choice;
-  var buttons = $("#quiz-list button"); //array of buttons from the ul
+    //array of choices
+    var choices = masterQuiz[questionNumber].choice;
+    var buttons = $("#quiz-list button"); //array of buttons from the ul
 
-  for (var i = 0; i < choices.length; i++) {
-    $(buttons[i]).html(choices[i]);  //set the text of the button to the corrosponding choice
+    for (var i = 0; i < choices.length; i++) {
+      $(buttons[i]).html(choices[i]);  //set the text of the button to the corrosponding choice
+    }
+    buttons.prop('disabled', false);
   }
-  buttons.prop('disabled', false);
+  else
+  {
+    $("#quizQuestions").addClass("d-none"); //hide the quesions
+    $("#quizFinish").removeClass("d-none"); //show the All Done page
+    $("#answer").removeClass("d-none");     //show the last answer 
+    questionNumber = 0;
+    stopTimer();  
+  }
 }
 
 //function to compare user choice to the answer
 function checkAnswer(buttonIndex) {
-  console.log(questionNumber);
   $("#quiz-list button").prop('disabled', true);
-  if (questionNumber < masterQuiz.length - 1) //cehck the answer and show the next question as long as it is not the last question
+  if (questionNumber < masterQuiz.length) //cehck the answer and show the next question as long as it is not the last question
   {
     var answerStatus = $("#answerStatus"); //html paragraph to display correct or wrong
     var answer = masterQuiz[questionNumber].answer; //get the answer from the wuesion object
-
+    console.log("Question: " + questionNumber + ", answer: " + answer + ", buttonIndex: " + buttonIndex);
     if (answer === buttonIndex)  //compare the answer to the user choice
     {
       answerStatus.html("Correct"); //display correct
@@ -226,17 +238,9 @@ function checkAnswer(buttonIndex) {
     }
     $("#answer").removeClass("d-none");  //show the answer section
 
+    questionNumber++;
     setTimeout(() => {  //set a 1 second timer to pause the screen so the user can see if they chose correctly before displaying the next set of questions
-      questionNumber++;  //increment the question counter
-      showQuestions(); //go to the function to show the next question
+       showQuestion(); //go to the function to show the next question
     }, 1500);
-  }
-  else  //if this is the last question, there are no more to show, go to the "All Done" page
-  {
-    $("#quizQuestions").addClass("d-none"); //hide the quesions
-    $("#quizFinish").removeClass("d-none"); //show the All Done page
-    $("#answer").removeClass("d-none");     //show the last answer 
-    questionNumber = 0;
-    stopTimer();
   }
 }
