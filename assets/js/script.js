@@ -15,7 +15,7 @@ let masterQuiz =
     {
       question: "question 2",
       choice: ["choice A", "choice B", "choice C", "choice D"],
-      answer: 4
+      answer: 0
     },
 
     {
@@ -37,27 +37,28 @@ let masterQuiz =
     }
   ];
 
-  $(document).ready(function () {
-    $("#quiz-list").hide();
-    $("#startQuizButton").on("click", function (event) {
-      $("#startQuiz").hide();
-      $("#quiz-list").show();
+  $(document).ready(function () 
+  {
+    $("#startQuizButton").on("click", function (event) 
+    {
+      $("#startQuiz").addClass("d-none");
+      $("#quizQuestions").removeClass("d-none");
       showQuestions();
     });
   
-    $("#quiz-list button").on("click", function (event) {
+    $("#quiz-list button").on("click", function (event) 
+    {
       var button = event.target;
       var buttonIndex = $(button).attr("data-index");
-      if (questionNumber < masterQuiz.length) 
-      {
-        questionNumber++;
-        showQuestions();
-      }
-      else
-      {
-        
-      }
+      buttonIndex = parseInt(buttonIndex,10);
+      checkAnswer(buttonIndex);
     });
+
+    $("#playerInitials").on("click", function(){
+      $("#answer").addClass("d-none");
+    });
+
+    
   });
 
 //fution to render the questions on the screen
@@ -66,6 +67,7 @@ function showQuestions() {
   var question = masterQuiz[questionNumber].question;
   //set the h1 element questionContent to the question
   $("#questionContent").html(question);
+  $("#answer").addClass("d-none");
 
   //array of choices
   var choices = masterQuiz[questionNumber].choice;
@@ -75,4 +77,32 @@ function showQuestions() {
   for (var i = 0; i < choices.length; i++) {
     $(buttons[i]).html(choices[i]);
   }
+}
+function checkAnswer(buttonIndex)
+{
+
+    if (questionNumber < masterQuiz.length -1) 
+    {
+      var answerStatus = $("#answerStatus");
+      var answer = masterQuiz[questionNumber].answer;
+      if (answer === buttonIndex)
+      {
+        answerStatus.html("Correct");
+      }
+      else
+      {
+        answerStatus.html("Wrong");
+      }
+      $("#answer").removeClass("d-none");
+      setTimeout(() => {
+        questionNumber++;
+        showQuestions();
+      }, 1000);
+    }
+    else
+    {
+      $("#quizQuestions").addClass("d-none");
+      $("#quizFinish").removeClass("d-none");
+      $("#answer").removeClass("d-none");
+    }
 }
