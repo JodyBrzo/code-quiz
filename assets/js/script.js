@@ -134,7 +134,6 @@ function showHighScores()
   $("#quizFinish").addClass("d-none");
   $("#highScores").removeClass("d-none");
 
-
     //use the highScores array and create list items to display the results
   $("#highScoresList").empty();
   for (var i = 0; i < highScores.length; i++) 
