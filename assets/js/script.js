@@ -9,7 +9,7 @@ let timerInterval;
 //array to retrieve scores from local storage
 let highScores = [];
 
-//object containg all of our quesitons, possible choices and correct answer
+//object containing all of our questions, possible choices and correct answer
 let masterQuiz =
   [
     {
@@ -31,7 +31,7 @@ let masterQuiz =
     },
 
     {
-      question: "A very useful tool used during developement and debugging for printing content to the debugger is:",
+      question: "A very useful tool used during development and debugging for printing content to the debugger is:",
       choice: ["JavaScript", "terminal / bash", "for loops", "console.log"],
       answer: 3 //console.log
     },
@@ -44,8 +44,9 @@ let masterQuiz =
   ];
 
 //add event listeners and show/hide necessary items
-$(document).ready(function () {
-  $("#startQuizButton").on("click", function () {
+$(document).ready(function () 
+{
+  $("#startQuizButton").on("click", function () {  //listener for the start quiz button
     startQuiz();
   });
 
@@ -53,140 +54,167 @@ $(document).ready(function () {
     clearPlayerInitialsTextBox();
   });
 
-  $("#highScoresLink").on("click", function () {
+  $("#highScoresLink").on("click", function () {  //listen for when the highscores link is clicked
     showHighScores();
   });
 
-  $("#goBack").on("click", function () {
-    startOver();
+  $("#goBack").on("click", function () {  //listener for the start over button click
+    startOver();   
   });
 
-  $("#clearHighScores").on("click", function () {
+  $("#clearHighScores").on("click", function () {  //listener for the clear highscores button
     clearHighScores();
   });
 
-  $("#playerInitialsButton").on("click", function () {
+  $("#playerInitialsButton").on("click", function () {  //listener for the button that submits the plyers initials and score
     setUserScore();
   });
 
-  bindQuestionButtons();
-  loadHighScores();
-  setTimer();
+  bindQuestionButtons();  //call the function to listen for the choice button click
+  loadHighScores();  //get the scores from local stroage
+  setTimer();     //set the timer function
 });
 
+//display the proper div, start the timer and show the quesions
 function startQuiz() {
   $("#startQuiz").addClass("d-none"); //hide
   $("#quizQuestions").removeClass("d-none"); //show
   startTimer();
-  // bindQuestionButtons();
   questionNumber = 0;
   showQuestion();  //go to show questions function
 }
 
+//get the highscores from memory and load them into an array called highScoreArray
 function loadHighScores() {
   var highScoresArray = localStorage.getItem("highScores");
   if (highScoresArray) //if not undefined
   {
-    highScores = JSON.parse(highScoresArray);
+    highScores = JSON.parse(highScoresArray);  //make sure there is a highscores object
   }
   else {
-    localStorage.setItem("highScores", JSON.stringify(highScores));
+    localStorage.setItem("highScores", JSON.stringify(highScores));  //if not make one and store it to local storage
   }
 }
 
+//get the data-index of the button clicked and send it to the checkAnswer function to see if user is right or wrong
 function quizListButton(event) {
   var button = event.target;  //get the button that was clicked
   var buttonIndex = $(button).attr("data-index"); //get the index of the button clicked
   buttonIndex = parseInt(buttonIndex, 10); //convert index to int
-  console.log(button);
-  checkAnswer(buttonIndex); //go to check abnswer function and pass it the index of the clicked button
+  checkAnswer(buttonIndex); //go to check answer function and pass it the index of the clicked button
 }
 
-//event for when a chice button is clicked
-function bindQuestionButtons() {
-  $("#quiz-list button").on("click", function (event) {
-    quizListButton(event);
+//event for when a choice button is clicked
+function bindQuestionButtons() 
+{
+  $("#quiz-list button").on("click", function (event) 
+  {
+    quizListButton(event); //send the object clicked to the quizlist button function
   });
 }
 
-function unBindQuestionButtons() {
+//turn off event listener
+function unBindQuestionButtons() 
+{
   $("#quiz-list button").off();
 }
 
-function clearPlayerInitialsTextBox() {
+//when the user clicked inside the initials text box, hide their last answer status
+function clearPlayerInitialsTextBox() 
+{
   $("#answer").addClass("d-none");
 }
 
-function showHighScores() {
+//make sure that all the divs are hidden no matter what the user is on and show the high scores div/
+function showHighScores() 
+{
   $("#header").addClass("d-none");
   $("#startQuiz").addClass("d-none");
   $("#quizQuestions").addClass("d-none");
   $("#quizFinish").addClass("d-none");
   $("#highScores").removeClass("d-none");
 
+
+    //use the highScores array and create list items to display the results
   $("#highScoresList").empty();
-  for (var i = 0; i < highScores.length; i++) {
+  for (var i = 0; i < highScores.length; i++) 
+  {
     var counter = i + 1;
     $("#highScoresList").append("<li>" + counter + ". " + highScores[i].initials + "- " + highScores[i].score + "</li>");
   }
-  setTimer();
+  setTimer();  //set timer to 0 and reset the display  - incase user clicks view highscore in the middle of a quiz
 }
 
-function setUserScore() {
-  var playerInitials = $("#playerInitials");
-  if (playerInitials.val() !== "") {
+//write score to local storage and display the scores div
+function setUserScore() 
+{
+  var playerInitials = $("#playerInitials");  //set the users initials to PlayerInitials from the text box
+  if (playerInitials.val() !== "") { //make sure user entered something 
     var score =
     {
-      initials: playerInitials.val(),
+      initials: playerInitials.val(),  //set the values to the score object
       score: secondsLeft
     }
 
-    highScores.push(score);
-    localStorage.setItem("highScores", JSON.stringify(highScores));
+    highScores.push(score);  //append to the end of the score object
+    localStorage.setItem("highScores", JSON.stringify(highScores));  //convert to a string and sent to local storage
 
-    playerInitials.val("");
-        showHighScores();
+    playerInitials.val("");  //clear the text box
+        showHighScores();  //go get the scores and show them
   }
-  else {
-    alert("You must enter your initials to record a score.");
+  else 
+  {
+    alert("You must enter your initials to record a score.");  //alert the user initials can not be blank to record a score
   }
 }
 
-function startOver() {
+//show only the header, initial quiz page
+function startOver() 
+{
   $("#header").removeClass("d-none");
   $("#startQuiz").removeClass("d-none");
   $("#quizQuestions").addClass("d-none");
   $("#highScores").addClass("d-none");
 }
 
-function clearHighScores() {
+//when user clicks the clear scores button then clear the local array and set it to local storage and clear the UL scores line items
+function clearHighScores() 
+{
   highScores = [];
   localStorage.setItem("highScores", JSON.stringify(highScores));
   $("#highScoresList").empty();
 }
 
-function setTimer() {
+//reset the timer and update display
+function setTimer() 
+{
   secondsLeft = 0;
   $("#timerValue").html(secondsLeft);
 }
 
-function startTimer() {
-  secondsLeft = 75;
-  timerInterval = setInterval(function () {
+//start the timer
+function startTimer() 
+{
+  secondsLeft = 75; 
+  timerInterval = setInterval(function () 
+  {  //every 1 second subtract a second and check if time remainig is 0
     secondsLeft--;
     $("#timerValue").html(secondsLeft);
-    if (secondsLeft === 0) {
-      clearInterval(timerInterval);
+    if (secondsLeft === 0) 
+    {
+      stopTimer();
       $("#quizQuestions").addClass("d-none"); //hide the quesions
       $("#quizFinish").removeClass("d-none"); //show the All Done page
       $("#answer").removeClass("d-none");     //show the last answer 
+      $("#score").html(secondsLeft);
       questionNumber = 0;
-      stopTimer();
     }
   }, 1000);
 }
 
-function stopTimer() {
+//clear the timer
+function stopTimer() 
+{
   clearInterval(timerInterval);
 }
 
@@ -205,27 +233,28 @@ function showQuestion() {
     var choices = masterQuiz[questionNumber].choice;
     var buttons = $("#quiz-list button"); //array of buttons from the ul
 
-    for (var i = 0; i < choices.length; i++) {
+    for (var i = 0; i < choices.length; i++) 
+    {
       var counter = i + 1;
-      $(buttons[i]).html(counter + ". " + choices[i]);  //set the text of the button to the corrosponding choice
+      $(buttons[i]).html(counter + ". " + choices[i]);  //set the text of the button to the corresponding choice
     }
-    buttons.prop('disabled', false);
+    buttons.prop('disabled', false);  //disable the buttons for clicking
   }
   else
   {
-    $("#quizQuestions").addClass("d-none"); //hide the quesions
+    stopTimer();
+    $("#quizQuestions").addClass("d-none"); //hide the questions
     $("#quizFinish").removeClass("d-none"); //show the All Done page
     $("#answer").removeClass("d-none");     //show the last answer 
     $("#score").html(secondsLeft);
     questionNumber = 0;
-    stopTimer();  
   }
 }
 
 //function to compare user choice to the answer
 function checkAnswer(buttonIndex) {
   $("#quiz-list button").prop('disabled', true);
-  if (questionNumber < masterQuiz.length) //cehck the answer and show the next question as long as it is not the last question
+  if (questionNumber < masterQuiz.length) //check the answer and show the next question as long as it is not the last question
   {
     var answerStatus = $("#answerStatus"); //html paragraph to display correct or wrong
     var answer = masterQuiz[questionNumber].answer; //get the answer from the wuesion object
@@ -236,12 +265,15 @@ function checkAnswer(buttonIndex) {
     }
     else {
       answerStatus.html("Wrong"); //display wrong 
-      secondsLeft -= 10;  //subtract 10 seconds from the timer.
+      if (secondsLeft >= 10)
+      {
+        secondsLeft -= 10;  //subtract 10 seconds from the timer.
+      }
     }
     $("#answer").removeClass("d-none");  //show the answer section
 
     questionNumber++;
-    setTimeout(() => {  //set a 1 second timer to pause the screen so the user can see if they chose correctly before displaying the next set of questions
+    setTimeout(() => {  //set a 1.5 second timer to pause the screen so the user can see if they chose correctly before displaying the next set of questions
        showQuestion(); //go to the function to show the next question
     }, 1500);
   }

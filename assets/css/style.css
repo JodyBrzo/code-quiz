@@ -1,14 +1,16 @@
 *,
-*::before,
-*::after {
-  box-sizing: border-box;
-}
 
+/* set the font for the page */
 body {
-  font-family: 'Montserrat', sans-serif;
+  font-family: 'Montserrat', sans-serif; 
   font-size: 16px;
 }
 
+h1{
+  font-size: 28px;
+}
+
+/* style input fields */
 input {
   height: 50px;
   width: 100%;
@@ -17,27 +19,29 @@ input {
   border: none;
 }
 
+/* ul styling, remove bullets */
 ul {
   list-style-type: none;
   padding: 1px;
 }
 
+/* style list items, indent a bit */
 li {
   margin-left: 20px; 
   padding: 5px;
+  max-width: 40%;
+  background: #7fddfa;   /* make the background color light blue */
+  margin-left:auto;
+  margin-right: auto;
 }
 
-li:before {
-  content: "\200B";
-  position: absolute;
+/* make every other li color white */
+li:nth-child(odd) { 
+  background:#fff; 
+  color: black;
 }
 
-li::after {
-  content: " ";
-  display: block;
-  clear: both;
-}
-
+/* style the question buttons to only have a white background */
 li button {
   border: none;
   height: 40px;
@@ -48,26 +52,39 @@ li button {
   border-radius: 10px;
 }
 
+/* change the button background to light blue on mouse over */
 li button:hover {
   background-color: #00c3ff;
 }
 
+/* style the div that holds the quiz elements */
 .quiz {
   width: 800px;
   margin: 0 auto;
   margin-top: 40px;
 }
 
+/* make all the buttons this blue color */
 .actionButton {
   background-color: #006eff;
   color: #fff;
   border-radius: 5px;
 }
 
+/* make all the buttons this blue color on mouse over */
 .actionButton:hover {
   background-color: #00c3ff;
 }
 
+/* ensure the background color od the quiz buttons in the list items are white */
+#quiz-list li{
+  background-color: #fff;
+  margin-left: 0px;
+  margin-right: auto;
+  
+}
+
+/* center the div "All Done" */
 #quizFinish {
   margin-left: auto;
   margin-right: auto;
