@@ -2,4 +2,4 @@
 Test your coding knowledge and beat your own time!
 
 # Mock-up
-![alt text](assets/images/code-quiz.mp4)
+![Code Quiz](assets/images/code-quiz.gif)
