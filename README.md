@@ -5,6 +5,8 @@ Test your coding knowledge and beat your own time!  You have 75 seconds on the c
 # Link to live site
 [Code Quiz](https://jodybrzo.github.io/code-quiz/index.html)
 
+# Technologies Used
+JavaScript 63.1% HTML 26.2% CSS 10.7%
 
 # Mock-up
 ![Code Quiz](assets/images/code-quiz.gif)
